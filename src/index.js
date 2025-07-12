@@ -6,7 +6,9 @@ class TextArea extends React.Component {
   constructor (props){
     super(props);
     this.state = {
-      contador : 0
+      texto: "",
+      maxCaracteres : 5,
+      restantes : 5
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -16,17 +18,21 @@ class TextArea extends React.Component {
     const textoCompleto = event.target.value;
     const textoCortado = textoCompleto.trim();
 
-    const cantLetras = textoCortado.length;
+    if(textoCompleto.length <= this.state.maxCaracteres){
+      this.setState({
+        texto: textoCortado,
+        restantes : this.state.maxCaracteres - textoCortado.length
+      });
+    }
 
-    this.setState({contador : cantLetras});
   }
 
   render () {
     return(
       <div>
         <h1>Write your message</h1>
-        <input type='text' onChange={this.handleChange}/>
-        <h3>Cant. de Letras: {this.state.contador}</h3>
+        <input value={this.state.texto} type='text' onChange={this.handleChange}/>
+        <h3>Cant. de Letras: {this.state.restantes}</h3>
       </div>
     )
   }
